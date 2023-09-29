@@ -4,7 +4,6 @@
 ##### Imports #######
 from PIL import Image, ImageDraw
 from screeninfo import get_monitors
-import keyboard
 import random
 import cv2
 import numpy as np
@@ -15,7 +14,7 @@ from Quartz.CoreGraphics import CGDisplayBounds
 #
 #
 
-def blank_slate():
+def blank_slate(im=True):
     """
     returns a white image
     """
@@ -30,7 +29,10 @@ def blank_slate():
     monitors = get_monitors()
     width = monitors[0].width+57 # no idea why we need the 57 but it fills the fullscreen without a gray bar
     height = monitors[0].height
-    return Image.new("RGB", (width, height), "white") , width, height
+    if im:
+        return Image.new("RGB", (width, height), "white") , width, height
+    else:
+        return width, height
 
 
 def isg_normal():
@@ -235,7 +237,7 @@ def isg_normal_rand_len_zones_with_edges():
     """
     same as rand_len_zone but adds wall edges
     """
-    img, width, height = blank_slate()
+    width, height = blank_slate(False)
     img = np.zeros((height, width, 3), dtype=np.uint8)
     origin = (width//2, height//2)  
     is_pressed = True
@@ -302,7 +304,7 @@ def isg_normal_rand_len_zones_with_edges_and_realism(growth=10):
     same as normal rand len zone with edges but wall length grows as they get closer
     every 10 steps it grows 1 length
     """
-    img, width, height = blank_slate()
+    width, height = blank_slate(False)
     img = np.zeros((height, width, 3), dtype=np.uint8)
     origin = (width//2, height//2)  
     is_pressed = True
